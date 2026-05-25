@@ -32,9 +32,30 @@ $$\mathcal{D}[\rho(t)]=\gamma_\phi\left(\sigma_z\rho(t)\sigma_z-\frac{1}{2}\lbra
 
 ## Numerical Simulations & Benchmark Analysis
 
-### 1. Unitary Control via GRAPE [(OCT.py)](OCT.py)
+### 1. Unitary Control via GRAPE [(Closed System OCT)](OCT.py)
 In the absence of environmental coupling ($\gamma_\phi=0$), we implement the GRAPE algorithm to discretize the pulse into $N=100$ constant slices over a total duration of $t_f=3.0\text{ ps}$. The system converges tightly to a target fidelity error threshold of $10^{-5}$.
 
-**Terminal Execution Metrices**
+**Terminal Execution Metrics:**
 * **Optimization Status**: Successfully Finished
 * **Final Success Fidelity**: 1.00000 (Absolute state preparation saturation)
+
+### 2. Robust Control under Pure Dephasing [(Open System OCT)](quantum_open_systm_OCT.py)
+When introducing a string Markovian dephasing channel ($\gamma_\phi=0.03$), standard unitary control sequence degrade rapidly due to decoherence. By implementing a Quasi-Newton BFGS optimization scheme directly bound to the Lindblad solver backend, the framework minimizes environmental exposure by squeezing the interaction timescale down to $t_f=0.8\text{ ps}$.
+
+**Terminal Execution Metrics:**
+* **Optimization Status**: Finished (Terminated due to optimization precision limits under dissipative noise)
+* **Current Function Value**: 0.081257
+* **Total Function Evaluations**: 2800
+* **Total Gradient Evaluations**: 68
+* **Final Lindblad Infidelity Error**: 0.08126 (Corresponding to an open-system target state preparation fidelity of $\approx 91.87\\%$)
+
+---
+
+## Data and Figures
+
+### Figure 1: Closed System GRAPE Dynamics
+**Left**: Piecewise-constant optimized Rabi pulse sequence $\Omega(t)$.
+**Right**: Corresoponding smooth quantum state trajectory mapped via the expectation value of the population inversion operator $\langle\sigma_z\rangle$.
+
+![Figure 1]
+
